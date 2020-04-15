@@ -21,6 +21,9 @@ end
 puts User.organization
 
 user1 = User.new
+p user1
+p user1.methods
+p user1.class.methods
 puts user1.full_details
 #puts user1.organization
 

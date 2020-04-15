@@ -40,6 +40,7 @@ class Customer
 end
 
 customer1 = Customer.new
+p customer1
 p customer1.full_name
 
 customer2 = Customer.new('John', 'Doe')
@@ -111,3 +112,25 @@ customer.last_name = 'Doe'
 p customer.first_name
 p customer.last_name
 p customer.full_name
+
+
+
+####### SOme MORe STUff
+
+class Person
+	attr_reader :name
+	def initialize name="unknown"
+		@name = name
+	end
+
+	def full_name
+		"Yugesh Palvai"
+	end
+end
+puts ""
+person = Person.new
+# puts person.name
+person2 = Person.allocate
+# puts person2.name
+puts person.full_name
+puts person.send :full_name
