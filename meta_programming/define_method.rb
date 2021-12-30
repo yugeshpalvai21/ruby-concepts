@@ -8,9 +8,9 @@ class Area
   measures.each do |measure_name|
     define_method("#{measure_name}_area") do |details={}|
       if measure_name == "square"
-        details[:width] * details[:height]
+        details[:length] * details[:length]
       elsif measure_name == "rectangular"
-        0.5 * details[:width] * details[:height]
+        0.5 * details[:width] * details[:length]
       elsif measure_name == "circle"
         pi_value * details[:radius] * details[:radius]
       else
@@ -21,11 +21,11 @@ class Area
 
 
   # def square_area details={}
-  #   details[:width] * details[:height]
+  #   details[:length] * details[:length]
   # end
 
   # def rectangular_area details={}
-  #   0.5 * details[:width] * details[:height]
+  #   0.5 * details[:width] * details[:length]
   # end
 
   # def circle_area details={}
@@ -35,7 +35,7 @@ end
 
 
 area = Area.new
-p area.square_area({width: 12, height: 19})
-p area.rectangular_area({width: 12, height: 19})
-p area.circle_area({radius: 10})
+p area.square_area length: 12
+p area.rectangular_area width: 12, length: 19
+p area.circle_area radius: 10
 
