@@ -3,6 +3,18 @@
 # # A Block is a collection of code to be executed
 # # A Block must be wrapped in between do.. end keyword or open..close curly braces({ code })
 
+def example_method
+  if block_given?
+    yield
+  end
+end
+
+example_method { puts "Block content processing from method body" }
+
+example_method do 
+  puts "Block2 content processing from method body" 
+end
+
 # countries = ['ind', 'usa', 'uk', 'ger','aus']
 # countries.each do |country| # Here We're attaching block to each method on countries object
 # 	puts country.upcase
