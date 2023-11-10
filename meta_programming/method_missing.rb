@@ -6,27 +6,24 @@ class Person
   end
 
   def method_missing(method_name, *arguments, &block)
-    if method_name =~ /location_(.*)/
+    if method_name =~ /location_(.*)/  #pattern matching
       unknown_result
     else
       super
     end
   end
 
-  def respond_to_missing?(method_name, include_private = false)
-    method_name.to_s.start_with?("location_") || super
-  end
+  # def respond_to_missing?(method_name, include_private = false)
+  #   method_name.to_s.start_with?("location_") || super
+  # end
 end
 
 person = Person.new
-# person.name = "yugesh palvai"
-# person.age = 29
+person.name = "yugesh palvai"
+person.age = 29
 
-# p person.name
-# # p person.courses
-# p person.location_first
-# p person.someother_method
+p person.name
+p person.location_first
+p person.courses
 
-p person.respond_to?(:name)
-p person.respond_to?(:location_details)
-p person.respond_to?(:some_other_method)
+# p person.respond_to?(:name)
