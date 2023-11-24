@@ -5,7 +5,7 @@ end
 
 some_method
 
-# Method With Parameters
+# Method With  Annanymous Parameters
 def merit_calculator(marks) #parameters
 	case marks
 		when 0..34 then "Failed"
@@ -16,24 +16,27 @@ def merit_calculator(marks) #parameters
 	end
 end
 
-puts ""
-print "Please Enter Your Marks: "
-input_marks = gets.chomp.to_i
-result = merit_calculator(input_marks) #arguments
+result = merit_calculator(55) #arguments
 puts result
 
-#Handle Default Parameter Values
+#Handle Default Annanymous Parameter Values
 puts ""
 def person_details(first_name='john', last_name='Doe', location='usa')
 	"Hello Mr. #{first_name.capitalize} #{last_name.capitalize}, You're From #{location.upcase}"
 end
 
-puts person_details()
+puts person_details
 puts person_details('yugesh', 'palvai', 'ind')
 
-#Handle Annonumous arguments of method call
-puts ""
+# Handle named parameters (keyword arguments)
 
+def description(name: 'default', title:, rank:)
+	puts "#{name} has #{title} with #{rank} rank"
+end
+
+description(title: "sdfsdf", rank: 15)
+
+# Handle Annonumous arguments of method call
 def full_name(first_name, *middle_name, last_name)
 	p middle_name
 	processed_middle_name = middle_name.map(&:capitalize).join(" ")
@@ -41,17 +44,27 @@ def full_name(first_name, *middle_name, last_name)
 end
 
 puts full_name('yugesh', 'my','middle','name','palvai')
+puts full_name('dfgdf', 'dfgdfg')
+
 
 #Handle Hashes As Parameters
-puts ""
-puts "Article Details:"
-def article_params(article={})
-	puts "Title: #{article[:title]}"
-	puts "Description: #{article[:description]}"
-	puts "User: #{article[:user]}"
+def article_params(**article)
+	puts article.class
 	article
 end
 
 p article_params(title: 'Some Title', description: 'Some Description', user: 'yugesh')
+
+
+# blocks and yields
+def my_method
+  puts "Start of method"
+  yield if block_given?
+  puts "End of method"
+end
+
+my_method do
+  puts "Inside the block"
+end
 
 
