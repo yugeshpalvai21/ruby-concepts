@@ -71,3 +71,11 @@ p numbers.inject {|accumlator, value| accumlator+value}
 p numbers.inject(0) {|a,v| a + v }
 details << "some big value"
 p details.inject {|a,v| v.length > a.length ? v : a }
+
+
+
+values = [1, 2, 3, 4, 5]
+p values
+    .map{ |num| num * num }
+    .select { |num| num.even? }
+    .inject(&:+)
