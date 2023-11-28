@@ -1,11 +1,11 @@
 # reference https://www.rubyguides.com/2018/01/ruby-string-methods/
 # String Methods And Iterators
 
-# Method1 to initiate string
+# one way to define string variable
 str = String.new("something")
 puts str
 
-# method2 to initiate String
+# other way to define String
 puts "something"
 
 #methods available on string objects
