@@ -1,4 +1,4 @@
-require_relative "../lib/person"
+require "person"
 
 RSpec.describe Person do
   it "instantiate person class" do
