@@ -22,4 +22,22 @@ RSpec.describe Person do
       expect(person_below_eighteen.is_major?).to be false
     end
   end
+
+  describe "#can_drink?" do
+    it "returns false with default user age" do
+      expect(subject.can_drink?).to be false
+    end
+
+    it "returns true when user is above 21 years old" do
+      subject.age = 21
+      
+      expect(subject.can_drink?).to be true
+    end
+
+    it "returns false when user is below 21 years old" do
+      subject.age = 20
+
+      expect(subject.can_drink?).to be false
+    end
+  end
 end
