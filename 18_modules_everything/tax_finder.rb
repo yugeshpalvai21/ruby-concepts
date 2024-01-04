@@ -1,4 +1,5 @@
 # main concept of modules is to provide Utility Helpers - (NameSpacing, Mixins etc.. )
+
 module Order
   module TaxCollector
     class << self  # this instantiate class object whenever Order::TaxCollector calls
