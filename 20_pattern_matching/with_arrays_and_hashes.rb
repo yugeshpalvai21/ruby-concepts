@@ -1,3 +1,4 @@
+# pattern matching allows us to match values against patterns and extract their values
 # pattern matching with Array
 digits = [1,2,3]
 
@@ -48,5 +49,4 @@ example_hash.each do |person|
   else
     puts "No Match Found"
   end
-end 
-
+end
