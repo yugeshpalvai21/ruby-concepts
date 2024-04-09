@@ -1,7 +1,7 @@
 # IF - ELSE Condition
 print "Please enter Your Age: "
 age = gets.chomp.to_i
-if (age >= 18)
+if age >= 18
 	puts "Welcome To Our App."
 else
 	puts "You're not authorized to use this app"

@@ -19,6 +19,7 @@ some_string = "there is no short cut to success except hardwork"
 # modifying string
 p some_string.upcase
 p some_string.downcase
+p some_string.swapcase
 p some_string.capitalize
 p some_string.reverse
 p some_string.split(" ")
@@ -47,4 +48,4 @@ puts some_string
 some_string.each_char { |letter| print letter.upcase }
 
 puts ""
-puts some_string.gsub("is", "Is")
+puts some_string.include?("is") && some_string.gsub("is", "Is")

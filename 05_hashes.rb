@@ -4,7 +4,7 @@
 name = {'first_name' => 'yugesh', 'last_name' => 'palvai'}
 p name
 
-info = {designation: 'SE', location: 'IND'}
+info = {designation:'SE', location:'IND'}
 p info
 
 

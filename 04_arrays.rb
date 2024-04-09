@@ -77,5 +77,5 @@ p details.inject {|a,v| v.length > a.length ? v : a }
 values = [1, 2, 3, 4, 5]
 p values
     .map{ |num| num * num }
-    .select { |num| num.even? }
+    .select(&:even?)
     .inject(&:+)
