@@ -7,4 +7,6 @@ def filter_age age
   end
 end
 
-puts filter_age 25
+print "Please enter your age > "
+input_age = gets.chomp.to_i
+puts filter_age input_age
