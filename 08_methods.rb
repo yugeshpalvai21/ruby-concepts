@@ -1,13 +1,13 @@
 # Basic Method Defination
-def some_method
-	puts "Return Result Of Basic Method"
+def example_method
+	puts "Prints From Example Method"
 end
 
-some_method
+example_method
 
 # Method With  Annanymous Parameters
 def merit_calculator(marks) #parameters
-	case marks
+	case marks.to_i
 		when 0..34 then "Failed"
 		when 35..59 then "Passed"
 		when 60..70 then "Passed With Merit"
