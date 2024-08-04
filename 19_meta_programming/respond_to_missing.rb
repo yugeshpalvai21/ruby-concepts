@@ -21,5 +21,5 @@ end
 person = Person.new
 
 p person.respond_to?(:name)
-p person.respond_to?(:location_first)
+p person.respond_to?(:location_first) # this method is not defined and will called on the fly through method missing
 p person.location_first

@@ -28,4 +28,5 @@ details = {
           }
 p details 
 p Order::TaxCollector.find_tax details
+p Order::TaxCollector.find_tax(details).class
 p Order::TaxCollector.class

@@ -39,3 +39,7 @@ p area.square_area length: 12
 p area.rectangular_area width: 12, length: 19
 p area.circle_area radius: 10
 
+p area.respond_to?(:square_area)
+p area.respond_to?(:rectangular_area)
+p area.respond_to?(:circle_area)
+
