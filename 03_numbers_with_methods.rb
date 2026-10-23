@@ -28,7 +28,7 @@ p number.even?
 p number.odd?
 p number.chr
 p 12.12.round(1)
-
+p -13.abs
 
 #Blocks and Iterations with Numbers
 
