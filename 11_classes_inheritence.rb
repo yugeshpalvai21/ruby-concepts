@@ -1,64 +1,79 @@
-# Person Class 
+# =============================================================================
+# 11 - INHERITANCE
+# =============================================================================
+# A subclass (`<`) inherits behavior from its superclass and can add to or
+# override it. `super` calls the parent's version of the current method.
+# =============================================================================
+
 class Person
-	@@organization = "NSWT"  #class variable
-	attr_accessor :first_name, :last_name
-	def initialize(first_name, last_name)
-		@first_name = first_name
-		@last_name = last_name
-	end
+  # Prefer a CLASS INSTANCE VARIABLE (@ on the class) over @@class variables.
+  # @@vars are shared across the whole hierarchy and can be surprising;
+  # a class instance variable + a reader is cleaner and subclass-friendly.
+  @organization = "NSWT"
 
-	def full_name
-		"#{first_name.capitalize} #{last_name.capitalize}"
-	end
+  class << self
+    attr_accessor :organization   # Person.organization reader/writer
+  end
 
-	def self.organization  #class method
-		@@organization
-	end
+  attr_accessor :first_name, :last_name
+
+  def initialize(first_name, last_name)
+    @first_name = first_name
+    @last_name  = last_name
+  end
+
+  def full_name
+    "#{first_name.capitalize} #{last_name.capitalize}"
+  end
+
+  def describe
+    "#{full_name} from #{self.class.organization}"
+  end
 end
 
-
-# Student Class inherits from Person Class
-
-class Student < Person  
-	def initialize(first_name, last_name)
-		super #call parent initialze method with sending same params that it received
-	end
-
-	def info
-		"Mr. #{full_name} is a student from #{self.class.organization}"
-	end
+# -- Student only reuses Person's behavior, so no initialize override needed. --
+class Student < Person
+  def describe
+    "Student #{super}"   # `super` (no args) reuses Person#describe's result
+  end
 end
 
-# Teacher class inherits from Person Class
-
+# -- Teacher adds state, so it overrides initialize and calls super explicitly --
 class Teacher < Person
-	def initialize(first_name, last_name, specialization)
-		super(first_name, last_name) #call parent initialze method with sending required params that it needed
-		@specialization = specialization
-	end
+  attr_reader :specialization
 
-	def info
-		"Mr. #{full_name} is a teacher from #{self.class.organization}"
-	end
+  def initialize(first_name, last_name, specialization)
+    super(first_name, last_name)   # pass only what the parent expects
+    @specialization = specialization
+  end
+
+  def describe
+    "Teacher #{super} specializing in #{specialization}"
+  end
 end
 
-#student object
-student = Student.new('john', 'doe')
-p student.class
-p student.class.superclass
-p student.class.ancestors
-p student.is_a?(Student)
-p student.instance_of?(Student)
-p student.full_name
-p Student.organization
-p student.info
+puts "--- Student ---"
+student = Student.new("john", "doe")
+p student.class              # => Student
+p student.class.superclass   # => Person
+p Student.ancestors          # => [Student, Person, Object, Kernel, BasicObject]
+p student.is_a?(Person)      # => true  (Student IS-A Person)
+p student.instance_of?(Person) # => false (its exact class is Student)
+puts student.describe        # => Student john doe from NSWT
 
-# teacher object
-puts ""
-teacher = Teacher.new('yugesh', 'palvai', 'computers')
-p Teacher.organization
-p teacher.class.ancestors
-p teacher.is_a?(Person)
-p teacher.instance_of?(Person)
-p teacher.full_name
-p teacher.info
+puts "\n--- Teacher ---"
+teacher = Teacher.new("yugesh", "palvai", "computers")
+puts teacher.describe        # => Teacher yugesh palvai from NSWT specializing in computers
+
+puts "\n--- Subclasses can have their own org value ---"
+Student.organization = "MIT"      # overrides the inherited class-instance var
+p Student.organization            # => "MIT"
+p Teacher.organization            # => "NSWT" (independent, unaffected)
+p Person.organization             # => "NSWT"
+
+# -----------------------------------------------------------------------------
+# super cheat-sheet:
+#   super        -> call parent method, forwarding the SAME arguments
+#   super(a, b)  -> call parent method with EXPLICIT arguments
+#   super()      -> call parent method with NO arguments
+# -----------------------------------------------------------------------------

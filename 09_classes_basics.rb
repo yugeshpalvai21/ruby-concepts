@@ -1,136 +1,92 @@
-#Defining Empty Class
+# =============================================================================
+# 09 - CLASSES: THE BASICS
+# =============================================================================
+# A class is a blueprint for objects. Instances hold state in @instance
+# variables and expose behavior through methods.
+# =============================================================================
+
+puts "--- An empty class still inherits a lot ---"
 class User
 end
 
-user1 = User.new
-p user1 
-p user1.class
-p user1.class.superclass
-p user1.class.ancestors
-p user1.methods.count # Instance Methods
-p user1.class.methods.count #Class Methods
+u = User.new
+p u.class              # => User
+p u.class.superclass   # => Object
+p User.ancestors       # => [User, Object, Kernel, BasicObject]
 
-#Defining Class With Object Methods
-puts ""
-class Welcome
-	def greets
-		"Hi, Welcome To Our Hotel"
-	end
-	def address
-		"3402, USA"
-	end
-end
-
-hotel = Welcome.new
-p hotel
-p hotel.greets
-p hotel.address
-
-#Defining Class With Constructor Method
-puts ""
+puts "\n--- initialize sets up state; methods expose behavior ---"
 class Customer
-	def initialize(first_name='yugesh', last_name='palvai')
-		@first_name = first_name
-		@last_name = last_name
-	end
+  def initialize(first_name = "yugesh", last_name = "palvai")
+    @first_name = first_name   # @ivars live on each instance
+    @last_name  = last_name
+  end
 
-	def full_name
-		"#{@first_name} #{@last_name}"
-	end
+  def full_name
+    "#{@first_name} #{@last_name}"
+  end
 end
 
-customer1 = Customer.new
-p customer1
-p customer1.full_name
+p Customer.new.full_name                # => "yugesh palvai"
+p Customer.new("John", "Doe").full_name # => "John Doe"
 
-customer2 = Customer.new('John', 'Doe')
-p customer2.full_name
+puts "\n--- attr_* generate getters/setters for you ---"
+class Product
+  # attr_reader  -> getter only
+  # attr_writer  -> setter only
+  # attr_accessor -> both
+  attr_accessor :name, :price
+  attr_reader :id
 
-#Defining Class With Getters and Setters
-puts ""
-class Customer
-	def initialize(first_name='yugesh', last_name='palvai')
-		@first_name = first_name
-		@last_name = last_name
-	end
-
-	def first_name=(name)
-		@first_name = name
-	end
-
-	def last_name=(name)
-		@last_name = name
-	end
-
-	def first_name
-		@first_name
-	end
-
-	def last_name
-		@last_name
-	end
-	
-	def full_name
-		"#{@first_name} #{@last_name}"
-	end
+  def initialize(id:, name:, price:)   # keyword args read nicely at the call site
+    @id = id
+    @name = name
+    @price = price
+  end
 end
 
-customer = Customer.new
-p customer.first_name
-p customer.last_name
-p customer.full_name
+item = Product.new(id: 1, name: "Keyboard", price: 1999)
+p item.name          # reader
+item.price = 1499    # writer
+p item.price         # => 1499
+# item.id = 2        # NoMethodError: id has no writer (attr_reader)
 
-customer.first_name = 'John'
-customer.last_name = 'Doe'
-p customer.first_name
-p customer.last_name
-p customer.full_name
+puts "\n--- to_s and inspect make objects print nicely ---"
+class Point
+  attr_reader :x, :y
 
-#Defining Class With Getters and Setters using ruby inbuilt methods
-puts ""
-class Customer
-	attr_reader :first_name
-	attr_writer :first_name
-	attr_accessor :last_name
+  def initialize(x, y)
+    @x = x
+    @y = y
+  end
 
-	def initialize(first_name='yugesh', last_name='palvai')
-		@first_name = first_name
-		@last_name = last_name
-	end
-
-	def full_name
-		"#{@first_name} #{@last_name}"
-	end
+  def to_s = "(#{x}, #{y})"          # used by puts and string interpolation
+  def inspect = "#<Point #{x},#{y}>" # used by p and in the console
 end
-customer = Customer.new
-p customer.first_name
-p customer.last_name
-p customer.full_name
 
-customer.first_name = 'John'
-customer.last_name = 'Doe'
-p customer.first_name
-p customer.last_name
-p customer.full_name
+pt = Point.new(3, 4)
+puts pt   # => (3, 4)      (to_s)
+p pt      # => #<Point 3,4> (inspect)
 
+puts "\n--- Defining value equality with == ---"
+class Money
+  attr_reader :cents
 
+  def initialize(cents) = @cents = cents
 
-####### SOme MORe STUff
-
-class Person
-	attr_reader :name
-	def initialize name="unknown"
-		@name = name
-	end
-
-	def full_name
-		"Yugesh Palvai"
-	end
+  def ==(other)
+    other.is_a?(Money) && cents == other.cents
+  end
 end
-puts ""
-person = Person.new
-# puts person.name
-person2 = Person.allocate
-# puts person2.name
-puts person.full_name
-puts person.send :full_name
+p Money.new(500) == Money.new(500) # => true (same value)
+p Money.new(500) == Money.new(100) # => false
+
+puts "\n--- Freezing makes an object immutable ---"
+FROZEN = "constant".freeze
+p FROZEN.frozen? # => true
+
+puts "\n--- send can call methods dynamically (even private ones) ---"
+class Greeter
+  def hello = "hi!"
+end
+p Greeter.new.send(:hello)        # => "hi!"
+p Greeter.new.public_send(:hello) # => "hi!" (safer: respects visibility)

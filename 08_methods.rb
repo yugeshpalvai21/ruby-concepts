@@ -1,70 +1,88 @@
-# Basic Method Defination
-def some_method
-	puts "Return Result Of Basic Method"
+# =============================================================================
+# 08 - METHODS
+# =============================================================================
+# Methods bundle reusable behavior. The LAST expression is returned implicitly;
+# use an explicit `return` only for early exits.
+# =============================================================================
+
+puts "--- Basic method & implicit return ---"
+def square(n)
+  n * n            # no `return` needed; this value comes back
 end
+p square(5) # => 25
 
-some_method
+puts "\n--- Endless method definition (Ruby 3.0+) ---"
+def cube(n) = n ** 3
+p cube(3) # => 27
 
-# Method With  Annanymous Parameters
-def merit_calculator(marks) #parameters
-	case marks
-		when 0..34 then "Failed"
-		when 35..59 then "Passed"
-		when 60..70 then "Passed With Merit"
-		when 70..100 then "Passed With Distinction"
-		else "Invalid Score"
-	end
+puts "\n--- Default argument values ---"
+def greet(name = "friend", greeting = "Hello")
+  "#{greeting}, #{name}!"
 end
+p greet                      # => "Hello, friend!"
+p greet("Yugesh")            # => "Hello, Yugesh!"
+p greet("Yugesh", "Hi")      # => "Hi, Yugesh!"
 
-result = merit_calculator(55) #arguments
-puts result
-
-#Handle Default Annanymous Parameter Values
-puts ""
-def person_details(first_name='john', last_name='Doe', location='usa')
-	"Hello Mr. #{first_name.capitalize} #{last_name.capitalize}, You're From #{location.upcase}"
+puts "\n--- Keyword arguments (order-independent, self-documenting) ---"
+def build_user(name:, role: "member", active: true)
+  { name: name, role: role, active: active }
 end
+p build_user(name: "Yugesh")                 # role/active defaulted
+p build_user(role: "admin", name: "Asha")    # order doesn't matter
 
-puts person_details
-puts person_details('yugesh', 'palvai', 'ind')
-
-# Handle named parameters (keyword arguments)
-
-def description(name: 'default', title:, rank:)
-	puts "#{name} has #{title} with #{rank} rank"
+puts "\n--- Splat (*) collects extra positional args into an array ---"
+def total(*numbers)
+  numbers.sum
 end
+p total(1, 2, 3, 4) # => 10
+p total             # => 0
 
-description(title: "sdfsdf", rank: 15)
-
-# Handle Annonumous arguments of method call
-def full_name(first_name, *middle_name, last_name)
-	p middle_name
-	processed_middle_name = middle_name.map(&:capitalize).join(" ")
-	"#{first_name.capitalize} #{processed_middle_name} #{last_name.capitalize}"
+puts "\n--- Double splat (**) collects extra keyword args into a hash ---"
+def tag(name, **attributes)
+  attrs = attributes.map { |k, v| "#{k}=\"#{v}\"" }.join(" ")
+  "<#{name} #{attrs}>".squeeze(" ").sub(" >", ">")
 end
+p tag("a", href: "/home", class: "link") # => "<a href=\"/home\" class=\"link\">"
 
-puts full_name('yugesh', 'my','middle','name','palvai')
-puts full_name('dfgdf', 'dfgdfg')
-
-
-#Handle Hashes As Parameters
-def article_params(**article)
-	puts article.class
-	article
+puts "\n--- Mixing it all: required, splat, keyword ---"
+def full_name(first, *middles, last)
+  [first, *middles, last].map(&:capitalize).join(" ")
 end
+p full_name("yugesh", "palvai")                 # => "Yugesh Palvai"
+p full_name("john", "fitzgerald", "kennedy")    # => "John Fitzgerald Kennedy"
 
-p article_params(title: 'Some Title', description: 'Some Description', user: 'yugesh')
-
-
-# blocks and yields
-def my_method
-  puts "Start of method"
-  yield if block_given?
-  puts "End of method"
+puts "\n--- Returning multiple values (really returns an array) ---"
+def min_max(list)
+  [list.min, list.max]
 end
+low, high = min_max([4, 9, 1, 7])
+p [low, high] # => [1, 9]
 
-my_method do
-  puts "Inside the block"
+puts "\n--- Blocks: yield & block_given? ---"
+def with_logging
+  puts "start"
+  result = yield if block_given?
+  puts "end"
+  result
 end
+value = with_logging { 2 + 2 }
+p value # => 4
 
+puts "\n--- Capturing a block as an explicit proc (&block) ---"
+def run_twice(&block)
+  block.call
+  block.call
+end
+run_twice { puts "tick" } # prints tick twice
 
+puts "\n--- Argument forwarding with ... (Ruby 2.7+/3.0+) ---"
+def log_and_call(...)
+  puts "forwarding args"
+  square(...)   # forwards every argument unchanged
+end
+p log_and_call(6) # => 36
+
+# -----------------------------------------------------------------------------
+# NOTE: method names can end in ? (predicates returning true/false) or !
+# (bang: mutates or is the "dangerous" variant). This is convention, not syntax.
+# -----------------------------------------------------------------------------

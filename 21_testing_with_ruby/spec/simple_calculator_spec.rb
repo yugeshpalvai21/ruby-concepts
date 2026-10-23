@@ -1,25 +1,28 @@
-require 'simple_calculator'
+# Shows the Arrange / Act / Assert rhythm and type coercion.
+require "simple_calculator"
 
 RSpec.describe SimpleCalculator do
-  # Arrange
-  let(:calc) { subject }
+  subject(:calc) { described_class.new }
 
-  it "instantiate SC class" do
-    # calc = described_class.new
-    expect(subject).to be_instance_of(SimpleCalculator) 
+  it "is an instance of the described class" do
+    expect(calc).to be_an_instance_of(SimpleCalculator)
   end
-  
-  it "returns result for addition of two values" do
-    # Act
-    addition = calc.add(1, "6")
 
-    # Assert
-    expect(addition).to eql(7)
+  describe "#add" do
+    it "adds two integers" do
+      expect(calc.add(2, 6)).to eq(8)
+    end
+
+    it "coerces numeric strings before adding" do
+      # Arrange / Act / Assert
+      result = calc.add(1, "6") # "6" is coerced via to_i
+      expect(result).to eq(7)
+    end
   end
-  
-  it "returns result for substraction of two values" do
-    sub = calc.substaction(3, 1)
 
-    expect(sub).to eql(2)
+  describe "#subtract" do
+    it "subtracts two integers" do
+      expect(calc.subtract(3, 1)).to eq(2)
+    end
   end
 end
